@@ -15,12 +15,6 @@ function montheme_supports(){
   register_nav_menu('header', 'en-tête du menu');
 }
 
-function montheme_title($title){
-
-  return 'salut' . $title;
-
-}
-
 function montheme_menu_class ($classes){
   $classes[] = 'blockHeader';
   return $classes;
@@ -31,9 +25,19 @@ function my_acf_google_map_api( $api ){
   return $api;
 }
 
+function my_function_admin_bar(){
+	return true;
+}
+
+function remove_admin_bar() {
+  if (!current_user_can('administrator') && !is_admin()) {
+    show_admin_bar(false);
+  }
+}
 
 add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
 add_action( 'wp_enqueue_scripts', 'add_theme_scripts' );
 add_action( 'after_setup_theme', 'montheme_supports');
 add_filter( 'wp_title', 'montheme_title');
 add_filter( 'nav_menu_css_class', 'montheme_menu_class');
+add_action('after_setup_theme', 'remove_admin_bar');
